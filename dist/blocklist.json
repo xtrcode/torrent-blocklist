@@ -1,6 +1,9 @@
 {
     "generator": "https://github.com/xtrcode/torrent-blocklist",
     "name": "blocklist",
+    "notices": [
+        "Country ranges: Powered by IPDENY.COM IP database (https://www.ipdeny.com). Copyright IPDeny.com project, all rights reserved; see https://www.ipdeny.com/copyright.php. Derived from APNIC/ARIN/RIPE NCC/LACNIC/AFRINIC registry data: not for use in advertising, marketing or spam. Provided as is, no accuracy guarantee. This project is not affiliated with ipdeny.com."
+    ],
     "merged": true,
     "ranges": {
         "total": 323411,
