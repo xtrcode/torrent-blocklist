@@ -3,9 +3,9 @@
     "name": "blocklist",
     "merged": true,
     "ranges": {
-        "total": 348845,
-        "ipv4": 348845,
-        "ipv6": 0
+        "total": 323411,
+        "ipv4": 319056,
+        "ipv6": 4355
     },
     "sources": [
         {
@@ -17,23 +17,54 @@
             "malformed": 0
         }
     ],
-    "countries": [],
+    "countries": {
+        "RU": {
+            "IPv4": {
+                "url": "https://www.ipdeny.com/ipblocks/data/aggregated/ru-aggregated.zone",
+                "ranges": 8664
+            },
+            "IPv6": {
+                "url": "https://www.ipdeny.com/ipv6/ipaddresses/aggregated/ru-aggregated.zone",
+                "ranges": 2167
+            }
+        },
+        "IL": {
+            "IPv4": {
+                "url": "https://www.ipdeny.com/ipblocks/data/aggregated/il-aggregated.zone",
+                "ranges": 781
+            },
+            "IPv6": {
+                "url": "https://www.ipdeny.com/ipv6/ipaddresses/aggregated/il-aggregated.zone",
+                "ranges": 162
+            }
+        },
+        "CN": {
+            "IPv4": {
+                "url": "https://www.ipdeny.com/ipblocks/data/aggregated/cn-aggregated.zone",
+                "ranges": 5517
+            },
+            "IPv6": {
+                "url": "https://www.ipdeny.com/ipv6/ipaddresses/aggregated/cn-aggregated.zone",
+                "ranges": 2036
+            }
+        }
+    },
     "skipped": [],
     "files": {
         "blocklist.p2p": {
-            "bytes": 13137031,
-            "sha256": "7ddb3e28ccca4b04d2f5bb1b7065408b49ac40caabcd87800463b1eba24f69ea",
-            "ranges": 348845
+            "bytes": 12415653,
+            "sha256": "49210dc51af910f0fdf1e508174d2604af690895d8f55cd0f9d33a2c63d3a5b5",
+            "ranges": 323411
         },
         "blocklist.dat": {
-            "bytes": 17919669,
-            "sha256": "2cc346881e1dd56ce522f91190197de673b76ef8d2bacd80652da89bd01bb013",
-            "ranges": 348845
+            "bytes": 16843581,
+            "sha256": "77b0e9216f678b89df70f8a013329391daf2d13305d0ae8719d312f6660f081d",
+            "ranges": 323411
         },
         "blocklist.p2b": {
-            "bytes": 4272842,
-            "sha256": "47f1f020e0330431826765bdc164dbd798e9ed213c45d9fd83229107ecec9ecd",
-            "ranges": 348845
+            "bytes": 3912256,
+            "sha256": "a0e6e6c7b27490a9f90bd9c60fd893a28bba719b3c57092ce2daefb40ea52fee",
+            "ranges": 319056
         }
     }
 }
