@@ -1,5 +1,7 @@
 # torrent-blocklist
 
+> **Not affiliated with ipdeny.com.** This is an independent hobby project. It is not endorsed by, sponsored by or otherwise connected to the IPdeny.com project, Wael Isa / Best-blocklist, or any Regional Internet Registry. All data comes from the public downloads of those third parties and is subject to their terms; see [Credits and licenses](#credits-and-licenses).
+
 Ready-to-use IP filter files for [qBittorrent](https://www.qbittorrent.org/) in **every format qBittorrent supports** (`.p2p`, `.dat`, `.p2b`), built from [waelisa/Best-blocklist](https://github.com/waelisa/Best-blocklist) and, optionally, the complete address space of whole countries from [ipdeny.com](https://www.ipdeny.com/ipblocks/).
 
 The files are generated inside a Docker container (PHP 8.4 on the official `php:cli-alpine` image, no runtime dependencies besides the Composer autoloader), configured entirely through environment variables, and rebuilt daily by a GitHub Action that commits the result back into [`dist/`](dist/).
@@ -11,7 +13,8 @@ The files are generated inside a Docker container (PHP 8.4 on the official `php:
 | [`dist/blocklist.p2p`](dist/blocklist.p2p) | PeerGuardian text | IPv4 + IPv6, human readable |
 | [`dist/blocklist.dat`](dist/blocklist.dat) | eMule `ipfilter.dat` | IPv4 + IPv6 |
 | [`dist/blocklist.p2b`](dist/blocklist.p2b) | PeerGuardian binary v3 | IPv4 only (format limitation), smallest file |
-| [`dist/blocklist.json`](dist/blocklist.json) | manifest | sources, range counts, SHA-256 of each file |
+| [`dist/blocklist.json`](dist/blocklist.json) | manifest | sources, range counts, SHA-256 of each file, license notices |
+| [`dist/IPDENY-Copyrights.txt`](dist/IPDENY-Copyrights.txt) | notice | ipdeny.com copyright notice, must travel with the country data |
 
 Raw URL pattern for scripts: `https://raw.githubusercontent.com/xtrcode/torrent-blocklist/main/dist/blocklist.p2p`
 
@@ -159,6 +162,14 @@ tests/                 PHPUnit tests mirroring src/, incl. a local HTTP server a
 
 * Code in this repository: MIT, see [LICENSE](LICENSE).
 * [Best-blocklist](https://github.com/waelisa/Best-blocklist) © Wael Isa, MIT.
-* Country zones © [ipdeny.com](https://www.ipdeny.com/ipblocks/), redistribution permitted per their usage policy; please link back if you redistribute.
+* Country zones: **Powered by [IPDENY.COM](https://www.ipdeny.com) IP database.** © IPDeny.com project, all rights reserved. Redistribution of the zone files is permitted per their [copyright notice](https://www.ipdeny.com/copyright.php) on the condition that the notice is kept intact and shipped with the data, so [`dist/IPDENY-Copyrights.txt`](dist/IPDENY-Copyrights.txt) is committed next to the generated files. If you redistribute the lists, keep that file with them and link back to ipdeny.com.
+
+### Usage restrictions for the country data
+
+The country ranges are derived from the registry files of APNIC, ARIN, RIPE NCC, LACNIC and AFRINIC. Those registries and ipdeny.com attach conditions that pass through to anyone using these lists:
+
+* **No advertising, marketing or spam.** ARIN and RIPE NCC explicitly forbid using their data for advertising, direct marketing, marketing research or similar purposes; ipdeny.com forbids spam, bulk advertising and illegal activities. Use the lists for filtering only.
+* **No accuracy guarantee.** Country assignment reflects where an address block was *allocated*, not necessarily where it is *used* today. Blocks move between countries, and the data is provided "as is" without warranty by every party involved, this project included.
+* **Rate limits.** If you run the generator yourself, respect ipdeny's [usage limits](https://www.ipdeny.com/usagelimits.php) (no more than 5,000 zone downloads per day and 5 concurrent connections per IP). The defaults here (`CACHE_TTL=7d`, conditional requests) stay far below that; do not run it in a tight loop.
 
 A blocklist is one layer of protection, not a guarantee. It will also block some legitimate peers.

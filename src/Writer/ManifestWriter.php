@@ -51,9 +51,18 @@ final class ManifestWriter
             $files[$file->name()] = ['bytes' => $file->bytes, 'sha256' => $file->sha256, 'ranges' => $file->ranges];
         }
 
+        $notices = [];
+        if ([] !== $countries) {
+            $notices[] = 'Country ranges: Powered by IPDENY.COM IP database (https://www.ipdeny.com). Copyright IPDeny.com project, all rights reserved; '
+                .'see https://www.ipdeny.com/copyright.php. Derived from APNIC/ARIN/RIPE NCC/LACNIC/AFRINIC registry data: '
+                .'not for use in advertising, marketing or spam. Provided as is, no accuracy guarantee. '
+                .'This project is not affiliated with ipdeny.com.';
+        }
+
         return [
             'generator' => $this->generator,
             'name' => $name,
+            'notices' => $notices,
             'merged' => $report->merged,
             'ranges' => ['total' => $report->total, 'ipv4' => $report->ipv4, 'ipv6' => $report->ipv6],
             'sources' => $sources,
