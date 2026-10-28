@@ -1,0 +1,12 @@
+.git
+.github
+cache
+dist
+vendor
+var
+*.md
+LICENSE
+docker-compose.yml
+blocklist.env
+.php-cs-fixer.cache
+.phpunit.cache

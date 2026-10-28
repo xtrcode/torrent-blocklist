@@ -1,0 +1,99 @@
+name: Build blocklist
+
+on:
+  schedule:
+    # daily at 04:17 UTC (upstream lists change at most daily; unchanged output is not committed)
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "bin/**"
+      - "src/**"
+      - "tests/**"
+      - "composer.json"
+      - "composer.lock"
+      - "phpunit.xml.dist"
+      - "phpstan.neon.dist"
+      - ".php-cs-fixer.dist.php"
+      - "Dockerfile"
+      - "docker-entrypoint.sh"
+      - "blocklist.env"
+      - ".github/workflows/build-blocklist.yml"
+  pull_request:
+    paths:
+      - "bin/**"
+      - "src/**"
+      - "tests/**"
+      - "composer.json"
+      - "composer.lock"
+      - "phpunit.xml.dist"
+      - "phpstan.neon.dist"
+      - ".php-cs-fixer.dist.php"
+      - "Dockerfile"
+      - "docker-entrypoint.sh"
+      - "blocklist.env"
+      - ".github/workflows/build-blocklist.yml"
+
+permissions:
+  contents: write
+
+# never let two builds commit at the same time
+concurrency:
+  group: build-blocklist
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build CI image (dev dependencies baked in)
+        run: docker build --pull --target ci -t torrent-blocklist:ci .
+
+      - name: Coding style, static analysis and tests
+        run: docker run --rm torrent-blocklist:ci composer check
+
+      - name: Build runtime image
+        run: docker build --target runtime -t torrent-blocklist:runtime .
+
+      - name: Restore download cache (ipdeny.com zones, source lists)
+        uses: actions/cache@v4
+        with:
+          path: cache
+          # a new key per run so the freshest cache is always saved; restore falls back to the latest one
+          key: blocklist-cache-${{ github.run_id }}
+          restore-keys: |
+            blocklist-cache-
+
+      - name: Generate blocklist files
+        run: |
+          mkdir -p cache dist
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            --env-file blocklist.env \
+            -v "$PWD/cache:/cache" \
+            -v "$PWD/dist:/output" \
+            torrent-blocklist:runtime
+
+      - name: Show result
+        run: |
+          ls -la dist
+          cat dist/*.json 2>/dev/null || true
+
+      - name: Commit and push generated files
+        if: github.event_name != 'pull_request'
+        run: |
+          git add -A dist
+          if git diff --cached --quiet; then
+            echo "Blocklist unchanged, nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: update blocklist ($(date -u +%Y-%m-%d))"
+          # in case main moved while the build was running
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

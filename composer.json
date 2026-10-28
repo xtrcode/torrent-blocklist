@@ -1,0 +1,60 @@
+{
+    "name": "xtrcode/torrent-blocklist",
+    "description": "Builds qBittorrent IP filter files (.p2p, .dat, .p2b) from Best-blocklist and ipdeny.com country zones",
+    "type": "project",
+    "license": "MIT",
+    "homepage": "https://github.com/xtrcode/torrent-blocklist",
+    "require": {
+        "php": "^8.4",
+        "ext-curl": "*",
+        "ext-mbstring": "*",
+        "ext-phar": "*",
+        "ext-zlib": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Blocklist\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Blocklist\\Tests\\": "tests/"
+        }
+    },
+    "bin": [
+        "bin/generate.php"
+    ],
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "scripts": {
+        "generate": "@php -d memory_limit=-1 bin/generate.php",
+        "test": "phpunit",
+        "phpstan": "phpstan analyse --no-progress --memory-limit=1G",
+        "cs": "php-cs-fixer fix --dry-run --diff",
+        "cs:fix": "php-cs-fixer fix",
+        "check": [
+            "@cs",
+            "@phpstan",
+            "@test"
+        ]
+    },
+    "scripts-descriptions": {
+        "generate": "Build the blocklist files (configuration via environment variables)",
+        "test": "Run the PHPUnit test suite",
+        "phpstan": "Run PHPStan static analysis",
+        "cs": "Check coding style (Symfony rule set) without changing files",
+        "cs:fix": "Fix coding style (Symfony rule set)",
+        "check": "Run coding style check, static analysis and tests"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.3",
+        "phpstan/phpstan-phpunit": "^2.1",
+        "phpunit/phpunit": "^13.4"
+    }
+}

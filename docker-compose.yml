@@ -1,0 +1,35 @@
+# Generate the lists:
+#   docker compose run --rm blocklist             # build dist/blocklist.{p2p,dat,p2b,json}
+#   docker compose run --rm blocklist help        # list all configuration variables
+#
+# Development (source mounted, vendor/ is installed into the working copy):
+#   docker compose run --rm dev composer install
+#   docker compose run --rm dev composer check    # CS-Fixer (dry run) + PHPStan + PHPUnit
+#   docker compose run --rm dev composer cs:fix
+#   docker compose run --rm dev composer test -- --filter RangeSet
+services:
+  blocklist:
+    build:
+      context: .
+      target: runtime
+    image: torrent-blocklist:local
+    env_file: blocklist.env
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - ./cache:/cache
+      - ./dist:/output
+
+  dev:
+    build:
+      context: .
+      target: toolchain
+    image: torrent-blocklist:toolchain
+    env_file: blocklist.env
+    environment:
+      # same locations as the blocklist service, relative to the mounted working copy
+      CACHE_DIR: cache
+      OUTPUT_DIR: dist
+    user: "${UID:-1000}:${GID:-1000}"
+    working_dir: /app
+    volumes:
+      - .:/app

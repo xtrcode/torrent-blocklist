@@ -1,0 +1,13 @@
+# Composer dependencies (installed inside the container)
+/vendor/
+# tool caches (PHPUnit, PHPStan, PHP-CS-Fixer)
+/var/
+# download cache (persisted via actions/cache in CI, local volume otherwise)
+/cache/
+# half-written outputs
+*.tmp
+# local overrides
+/.env
+/phpunit.xml
+/phpstan.neon
+/.php-cs-fixer.php

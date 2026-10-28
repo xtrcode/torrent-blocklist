@@ -1,0 +1,9 @@
+# phpstan/phpstan-phpunit is registered automatically by phpstan/extension-installer.
+parameters:
+    level: max
+    paths:
+        - bin
+        - src
+        - tests
+    tmpDir: var/cache/phpstan
+    treatPhpDocTypesAsCertain: false
