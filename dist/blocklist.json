@@ -1,0 +1,39 @@
+{
+    "generator": "https://github.com/xtrcode/torrent-blocklist",
+    "name": "blocklist",
+    "merged": true,
+    "ranges": {
+        "total": 348845,
+        "ipv4": 348845,
+        "ipv6": 0
+    },
+    "sources": [
+        {
+            "source": "https://raw.githubusercontent.com/waelisa/Best-blocklist/main/wael.list.p2p.zip",
+            "formats": [
+                "p2p"
+            ],
+            "ranges": 485474,
+            "malformed": 0
+        }
+    ],
+    "countries": [],
+    "skipped": [],
+    "files": {
+        "blocklist.p2p": {
+            "bytes": 13137031,
+            "sha256": "7ddb3e28ccca4b04d2f5bb1b7065408b49ac40caabcd87800463b1eba24f69ea",
+            "ranges": 348845
+        },
+        "blocklist.dat": {
+            "bytes": 17919669,
+            "sha256": "2cc346881e1dd56ce522f91190197de673b76ef8d2bacd80652da89bd01bb013",
+            "ranges": 348845
+        },
+        "blocklist.p2b": {
+            "bytes": 4272842,
+            "sha256": "47f1f020e0330431826765bdc164dbd798e9ed213c45d9fd83229107ecec9ecd",
+            "ranges": 348845
+        }
+    }
+}
