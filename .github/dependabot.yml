@@ -1,0 +1,16 @@
+version: 2
+updates:
+  # keeps the SHA-pinned actions in the workflow current
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # dev dependencies only (PHPUnit, PHPStan, CS-Fixer); the runtime image has none
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      dev-tools:
+        patterns: ["*"]
